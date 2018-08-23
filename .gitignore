@@ -63,5 +63,5 @@ typings/
 # desktop files
 desktop.ini
 trash
-react
+react/voting_app
 .vscode
