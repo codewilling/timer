@@ -75,11 +75,11 @@ class TimersDashboard extends React.Component {
            timers: this.state.timers.map((t)=>{
                if(t.id === timerId){
                    return Object.assign({}, t, {
-                       runningSince: now,
+                       runningSince: now
                    })
                }
                else{
-                   return timer;
+                   return t;
                }
            })
        })
@@ -87,12 +87,13 @@ class TimersDashboard extends React.Component {
 
     stopTimer = (timerId) => {
         const now = Date.now();
-
         this.setState({
             timers: this.state.timers.map((t)=>{
                 if(t.id===timerId){
+                    const lastElapsed = now - t.runningSince;
                     return Object.assign({}, t, {
-                        elapsed: now
+                        elapsed: t.elapsed + lastElapsed,
+                        runningSince: null
                     })
                 }
                 else{
@@ -336,9 +337,6 @@ class Timer extends React.Component {
                             <i className="trash icon" />
                         </span>
                     </div>
-                </div>
-                <div className="ui bottom attached blue basic button">
-                    Start
                 </div>
                 <TimerActionButton
                     timerIsRunning={!!this.props.runningSince}
