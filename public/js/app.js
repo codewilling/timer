@@ -1,23 +1,20 @@
 class TimersDashboard extends React.Component {
     //TODO(Sean): Add timer state
     state = {
-        timers: [
-            {
-                title: "Practice squat",
-                project: "Gym Chores",
-                id: uuid.v4(),
-                elapsed: 5456099,
-                runningSince: Date.now(),
-            },
-            {
-                title: "Bake Squash",
-                project: "Kitchen Chores",
-                id: uuid.v4(),
-                elapsed: 1273998,
-                runningSince: null
-            },
-        ],
+        timers: [],
     };
+
+    componentDidMount() {
+        this.loadTimersFromServers();
+        setInterval(this.loadTimersFromServers, 5000);
+    }
+
+    loadTimersFromServers = () => {
+        client.getTimers((serverTimers) => (
+            this.setState({ timers: serverTimers })
+        )
+        )
+    }
 
     handleCreateFormSubmit = (timer) => {
         this.createTimer(timer)
@@ -29,7 +26,7 @@ class TimersDashboard extends React.Component {
 
     handleTrashClick = (timerId) => {
         this.deleteTimer(timerId)
-    } 
+    }
 
     handleStartClick = (timerId) => {
         this.startTimer(timerId);
@@ -69,34 +66,34 @@ class TimersDashboard extends React.Component {
     }
 
     startTimer = (timerId) => {
-       const now = Date.now();
+        const now = Date.now();
 
-       this.setState({
-           timers: this.state.timers.map((t)=>{
-               if(t.id === timerId){
-                   return Object.assign({}, t, {
-                       runningSince: now
-                   })
-               }
-               else{
-                   return t;
-               }
-           })
-       })
+        this.setState({
+            timers: this.state.timers.map((t) => {
+                if (t.id === timerId) {
+                    return Object.assign({}, t, {
+                        runningSince: now
+                    })
+                }
+                else {
+                    return t;
+                }
+            })
+        })
     }
 
     stopTimer = (timerId) => {
         const now = Date.now();
         this.setState({
-            timers: this.state.timers.map((t)=>{
-                if(t.id===timerId){
+            timers: this.state.timers.map((t) => {
+                if (t.id === timerId) {
                     const lastElapsed = now - t.runningSince;
                     return Object.assign({}, t, {
                         elapsed: t.elapsed + lastElapsed,
                         runningSince: null
                     })
                 }
-                else{
+                else {
                     return t
                 }
             })
