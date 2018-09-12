@@ -80,10 +80,16 @@ class TimersDashboard extends React.Component {
                 }
             })
         })
+
+        client.startTimer({
+            id: timerId, 
+            start: now
+        })
     }
 
     stopTimer = (timerId) => {
         const now = Date.now();
+
         this.setState({
             timers: this.state.timers.map((t) => {
                 if (t.id === timerId) {
@@ -97,6 +103,11 @@ class TimersDashboard extends React.Component {
                     return t
                 }
             })
+        })
+
+        client.stopTimer({
+            id: timerId, 
+            stop: now
         })
 
     }

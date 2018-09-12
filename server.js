@@ -55,7 +55,7 @@ app.post('/api/timers/start', (req, res) => {
       }
     });
     fs.writeFile(DATA_FILE, JSON.stringify(timers, null, 4), () => {
-      res.json({});
+      res.json(timers);
     });
   });
 });
