@@ -41,9 +41,13 @@ class TimersDashboard extends React.Component {
         this.setState({
             timers: this.state.timers.concat(t)
         })
+
+        client.createTimer(t)
+
     }
 
     updateTimer = (attrs) => {
+        
         this.setState({
             timers: this.state.timers.map((timer) => {
                 if (timer.id === attrs.id) {
@@ -57,11 +61,17 @@ class TimersDashboard extends React.Component {
                 }
             })
         })
-    }
 
+        client.updateTimer(attrs)
+    }
+    
     deleteTimer = (timerId) => {
         this.setState({
             timers: this.state.timers.filter((t) => t.id !== timerId)
+        })
+
+        client.deleteTimer({
+            id: timerId
         })
     }
 
@@ -91,9 +101,9 @@ class TimersDashboard extends React.Component {
         const now = Date.now();
 
         this.setState({
-            timers: this.state.timers.map((t) => {
-                if (t.id === timerId) {
-                    const lastElapsed = now - t.runningSince;
+            timers: this.state.timers.map((t)=>{
+                const lastElapsed = now - t.runningSince;
+                if(t.id === timerId){
                     return Object.assign({}, t, {
                         elapsed: t.elapsed + lastElapsed,
                         runningSince: null
