@@ -67,6 +67,17 @@ window.client = (function () {
     }).then(checkStatus);
   }
 
+  function resetTimer(data) {
+    return fetch('/api/timers/reset', {
+      method: 'put',
+      body: JSON.stringify(data),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(checkStatus)
+  }
+
   function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
       return response;
@@ -89,6 +100,7 @@ window.client = (function () {
     updateTimer,
     startTimer,
     stopTimer,
+    resetTimer,
     deleteTimer,
   };
 }());

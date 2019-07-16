@@ -91,6 +91,20 @@ app.put('/api/timers', (req, res) => {
   });
 });
 
+app.put('/api/timers/reset', (req, res) => {
+  fs.readFile(DATA_FILE, (err, data) => {
+    const timers = JSON.parse(data);
+    timers.forEach((timer) => {
+      if (timer.id === req.body.id){
+        timer.elapsed = 0;
+      }
+    })
+    fs.writeFile(DATA_FILE, JSON.stringify(timers, null, 4), ()=>{
+      res.json({});
+    });
+  });
+});
+
 app.delete('/api/timers', (req, res) => {
   fs.readFile(DATA_FILE, (err, data) => {
     let timers = JSON.parse(data);
