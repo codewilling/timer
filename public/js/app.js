@@ -379,6 +379,8 @@ class Timer extends React.Component {
           timerIsRunning={!!this.props.runningSince}
           onStartClick={this.handleStartClick}
           onStopClick={this.handleStopClick}
+          onResetClick={this.handleResetClick}
+          elapsed={this.props.elapsed}
         />
       </div>
     );
@@ -389,7 +391,7 @@ class TimerActionButton extends React.Component {
 
     render() {
       return(
-      this.props.timerRunning ? 
+      this.props.timerIsRunning ? 
       (
         <button 
         className='ui bottom attached red basic button'
